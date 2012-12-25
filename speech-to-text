@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+#This script will take a .flac file, use google speech recognition, convert the voice to text and print that.
+
+import urllib2
+import json
+
+Recording = 'recording.flac'
+url = "https://www.google.com/speech-api/v1/recognize?client=chromium&lang=en-us"
+flac=open(Recording,"rb").read()
+header = {'Content-Type' : 'audio/x-flac; rate=16000'}
+req = urllib2.Request(url, flac, header)
+data = urllib2.urlopen(req)
+json_string = data.read()
+output=json.loads(json_string)
+print output['hypotheses'][0]['utterance']
